@@ -1,0 +1,85 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: greeters.hello.hello.io
+spec:
+  group: hello.hello.io
+  names:
+    kind: Greeter
+    listKind: GreeterList
+    plural: greeters
+    singular: greeter
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.name
+      name: Name
+      type: string
+    - jsonPath: .spec.message
+      name: Message
+      type: string
+    - jsonPath: .status.ready
+      name: Ready
+      type: boolean
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: Greeter is the Schema for the greeters API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: GreeterSpec defines the desired state of Greeter.
+            properties:
+              message:
+                description: Message is an optional custom message
+                maxLength: 100
+                type: string
+              name:
+                description: Name is the person's name to greet
+                maxLength: 50
+                minLength: 1
+                pattern: ^[A-Za-z\s]+$
+                type: string
+            required:
+            - name
+            type: object
+          status:
+            description: GreeterStatus defines the observed state of Greeter.
+            properties:
+              greeting:
+                description: Greeting contains the generated greeting message
+                type: string
+              lastUpdated:
+                description: LastUpdated timestamp of the last reconciliation
+                type: string
+              ready:
+                description: Ready indicates whether the ConfigMap has been created
+                type: boolean
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -25,21 +25,37 @@ import (
 
 // GreeterSpec defines the desired state of Greeter.
 type GreeterSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Name is the person's name to greet
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:Pattern=^[A-Za-z\s]+$
+	Name string `json:"name"`
 
-	// Foo is an example field of Greeter. Edit greeter_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Message is an optional custom message
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:validation:MaxLength=100
+	Message string `json:"message,omitempty"`
 }
 
 // GreeterStatus defines the observed state of Greeter.
 type GreeterStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Greeting contains the generated greeting message
+	Greeting string `json:"greeting,omitempty"`
+
+	// Ready indicates whether the ConfigMap has been created
+	Ready bool `json:"ready,omitempty"`
+
+	// LastUpdated timestamp of the last reconciliation
+	LastUpdated string `json:"lastUpdated,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Name",type="string",JSONPath=".spec.name"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".spec.message"
+// +kubebuilder:printcolumn:name="Ready",type="boolean",JSONPath=".status.ready"
+// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
 
 // Greeter is the Schema for the greeters API.
 type Greeter struct {
