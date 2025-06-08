@@ -8,4 +8,14 @@ layout:
 - go.kubebuilder.io/v4
 projectName: greeter-operator
 repo: github.com/FrankCali/greeter-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: hello.io
+  group: hello
+  kind: Greeter
+  path: github.com/FrankCali/greeter-operator/api/v1
+  version: v1
 version: "3"
