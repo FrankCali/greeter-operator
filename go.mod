@@ -1,4 +1,4 @@
-module github.com/yourusername/greeter-operator
+module github.com/FrankCali/greeter-operator
 
 go 1.24.0
 

@@ -7,5 +7,5 @@ domain: hello.io
 layout:
 - go.kubebuilder.io/v4
 projectName: greeter-operator
-repo: github.com/yourusername/greeter-operator
+repo: github.com/FrankCali/greeter-operator
 version: "3"
